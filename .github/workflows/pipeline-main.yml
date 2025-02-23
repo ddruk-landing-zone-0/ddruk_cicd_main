@@ -8,7 +8,7 @@ on:
             - dev-0
 jobs:
     main:
-        uses: ddruk-landing-zone-0/ddruk_cicd_main/.github/workflows/python-gcp-main.yml@main
+        uses: ddruk-landing-zone-0/ddruk_cicd_main/.github/actions/python-gcp-main.yml@main
         secrets: inherit
         with:
             GCP_PROJECT_ID: ddruk-landing-zone-0
