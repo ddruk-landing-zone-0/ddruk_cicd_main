@@ -1,0 +1,19 @@
+name: pipeline-main
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+            - dev-0
+jobs:
+    main:
+        uses: ddruk-landing-zone-0/ddruk_cicd_main/.github/workflows/deploy.yml@main
+        secrets: inherit
+        with:
+            GCP_PROJECT_ID: ddruk-landing-zone-0
+            CLOUD_RUN_SERVICE: sample-python-server
+            CLOUD_RUN_REGION: us-central1
+            GAR_LOCATION: us-central1-docker.pkg.dev/ddruk-landing-zone-0/sample-python-server-artifactory
+            GAR_LOCATION_PREFIX: us-central1-docker.pkg.dev
+            IMAGE_NAME: sample-python-server-image
