@@ -11,10 +11,12 @@ jobs:
         uses: ddruk-landing-zone-0/ddruk_cicd_main/.github/workflows/python-gcp-main.yml@main
         secrets: inherit
         with:
-            GCP_PROJECT_ID: ddruk-landing-zone-0
+            GCP_PROJECT_ID: hackathon0-project
             CLOUD_RUN_SERVICE: sample-python-server
             CLOUD_RUN_REGION: us-central1
             GAR_LOCATION: us-central1-docker.pkg.dev/ddruk-landing-zone-0/sample-python-server-artifactory
             GAR_LOCATION_PREFIX: us-central1-docker.pkg.dev
             IMAGE_NAME: sample-python-server-image
-            SERVICE_ACCOUNT: sample-python-server-sa
+            SERVICE_ACCOUNT: hackathon0-sa@hackathon0-project.iam.iam.gserviceaccount.com
+            DOCKER_FILE: Dockerfile.app
+            CLOUD_RUN_RAM: 512Mi

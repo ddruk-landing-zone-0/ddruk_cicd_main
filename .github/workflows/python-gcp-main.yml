@@ -1,4 +1,4 @@
-name: Deploy to Cloud Run
+name: Deploy Python App to Cloud Run
 
 on:
   workflow_dispatch:
@@ -24,8 +24,14 @@ on:
             required: true
         SERVICE_ACCOUNT:
             type: string
-            required: true          
-
+            required: true 
+        DOCKER_FILE:
+            type: string    
+            required: true
+        CLOUD_RUN_RAM:
+            type: string
+            required: true
+            
 jobs:
   code_checkout:
     name: Checkout And Deploy
@@ -53,14 +59,14 @@ jobs:
       # -------------------------
       - name: Build Publisher Docker Image
         run: |
-          docker build -f Dockerfile.pub -t ${{ inputs.GAR_LOCATION }}/${{ inputs.IMAGE_NAME }}:latest .
-          docker images  # Debugging
+          docker build -f ${{ inputs.DOCKER_FILE }} -t ${{ inputs.GAR_LOCATION }}/${{ inputs.IMAGE_NAME }}:latest .
+          docker images
 
-      - name: Push Publisher Docker Image to Artifact Registry
+      - name: Push Docker Image to Artifact Registry
         run: |
           docker push ${{ inputs.GAR_LOCATION }}/${{ inputs.IMAGE_NAME }}:latest
 
-      - name: Deploy to Cloud Run (Publisher)
+      - name: Deploy to Cloud Run
         run: |
           gcloud run deploy ${{ inputs.CLOUD_RUN_SERVICE }} \
             --image ${{ inputs.GAR_LOCATION }}/${{ inputs.IMAGE_NAME }}:latest \
@@ -68,12 +74,12 @@ jobs:
             --platform managed \
             --allow-unauthenticated \
             --service-account=${{ inputs.SERVICE_ACCOUNT }} \
-            --memory 4Gi
+            --memory ${{ inputs.CLOUD_RUN_RAM }}
 
           # Fetch and display the deployed service URL
           DEPLOYED_URL=$(gcloud run services describe ${{ inputs.CLOUD_RUN_SERVICE }} \
             --region ${{ inputs.CLOUD_RUN_REGION }} \
             --format 'value(status.url)')
 
-          echo "✅ Cloud Run Publisher Service Deployed Successfully!"
+          echo "✅ Cloud Run Service Deployed Successfully!"
           echo "🌍 Deployed URL For Pub: $DEPLOYED_URL"
