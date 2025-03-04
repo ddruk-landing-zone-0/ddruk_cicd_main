@@ -17,6 +17,6 @@ jobs:
             GAR_LOCATION: us-central1-docker.pkg.dev/hackathon0-project/python-server
             GAR_LOCATION_PREFIX: us-central1-docker.pkg.dev
             IMAGE_NAME: sample-python-server-image
-            SERVICE_ACCOUNT: hackathon0-sa@hackathon0-project.iam.iam.gserviceaccount.com
+            SERVICE_ACCOUNT: hackathon0-sa@hackathon0-project.iam.gserviceaccount.com
             DOCKER_FILE: Dockerfile.app
             CLOUD_RUN_RAM: 512Mi
