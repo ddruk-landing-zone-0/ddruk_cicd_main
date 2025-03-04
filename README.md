@@ -15,6 +15,7 @@ Create a project in your GCP console ([https://console.cloud.google.com/welcome]
 
 ### Login To GCloud and Other Setup ( One Time Setup )
 ```
+gcloud components update
 gcloud auth login
 gcloud config set project <WRITE_YOUR_PROJECTID>
 gcloud iam service-accounts create <SERVICE_AC_DISPLAYNAME> --display-name <SERVICE_AC_DISPLAYNAME>
@@ -45,6 +46,24 @@ gcloud projects add-iam-policy-binding <WRITE_YOUR_PROJECTID> \
     --role=roles/storage.objectViewer \
     --role=roles/storage.objectCreator
 ```
+
+### Create Bucket
+```
+gcloud storage buckets create gs://<WRITE_BUCKET_NAME> --location=US --uniform-bucket-level-access
+```
+where, sample WRITE_BUCKET_NAME can be  hackathon-bucket-0
+
+### Create GAR Registry
+```
+gcloud artifacts repositories create <REPOSITORY_ID> \
+    --project=<WRITE_YOUR_PROJECTID> \
+    --location=us-central1 \
+    --repository-format=docker \
+    --description="Docker repository for Python server"
+```
+
+sample REPOSITORY_ID can be 'python-server'
+
 
 ### Creating key.json for Service Account
 ```
