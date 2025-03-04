@@ -6,7 +6,7 @@
 brew install google-cloud-sdk
 ```
 
-### Samples
+### Set the Environment
 ```
 Create a project in your GCP console ([https://console.cloud.google.com/welcome](https://console.cloud.google.com/welcome)) with the name : hackathon0-project
 <WRITE_YOUR_PROJECTID> : hackathon0-project_id

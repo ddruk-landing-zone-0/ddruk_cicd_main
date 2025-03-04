@@ -14,7 +14,7 @@ jobs:
             GCP_PROJECT_ID: hackathon0-project
             CLOUD_RUN_SERVICE: sample-python-server
             CLOUD_RUN_REGION: us-central1
-            GAR_LOCATION: us-central1-docker.pkg.dev/hackathon0-project/sample-python-server-artifactory
+            GAR_LOCATION: us-central1-docker.pkg.dev/hackathon0-project/python-server
             GAR_LOCATION_PREFIX: us-central1-docker.pkg.dev
             IMAGE_NAME: sample-python-server-image
             SERVICE_ACCOUNT: hackathon0-sa@hackathon0-project.iam.iam.gserviceaccount.com
