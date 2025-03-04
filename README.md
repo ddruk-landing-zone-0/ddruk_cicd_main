@@ -9,11 +9,11 @@ brew install google-cloud-sdk
 ###  Create a GCP Project
 1. Go to Google Cloud Console [https://console.cloud.google.com/welcome](https://console.cloud.google.com/welcome)
 2. Create a project with the name: hackathon0-project
-3. Set the Project ID (e.g., hackathon0-project)
+3. See the Project ID (e.g., hackathon0-project)
 
 ### Set the Environment
 ```
-export GCP_PROJECT_ID="hackathon0-project"
+export GCP_PROJECT_ID="hackathon0-project" # Write it properly after seeing the dashboard
 export SERVICE_AC_DISPLAYNAME="hackathon0-sa"
 export BUCKET_NAME="hackathon-bucket-0"
 export GAR_REPOSITORY_ID="python-server"
