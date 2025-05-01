@@ -1,17 +1,22 @@
 name: Inject Cron Progressive Workflow
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       service_name:
+        type: string
         required: true
       project_id:
+        type: string
         required: true
       region:
+        type: string
         required: true
       traffic_shift:
+        type: number
         required: true
       cron_schedule:
+        type: string
         required: true
 
 jobs:
