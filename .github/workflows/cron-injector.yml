@@ -30,7 +30,11 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.1
+        with:
+          # Fine-grained PAT with contents:write and workflows:write
+          # scopes
+          token: ${{ secrets.WORKFLOW_TOKEN }}
 
       - name: Copy template workflow
         run: |
