@@ -42,7 +42,7 @@ jobs:
 
   inject:
     needs: deploy
-    uses: ddruk-landing-zone-0/ddruk_cicd_main/.github/workflows/cron-injector.yml@main
+    uses: ./.github/workflows/cron-injector.yml
     with:
       service_name: ${{ github.event.inputs.service_name }}
       project_id: ${{ github.event.inputs.project_id }}
