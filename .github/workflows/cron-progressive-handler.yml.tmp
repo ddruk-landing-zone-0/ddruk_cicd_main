@@ -5,6 +5,9 @@ on:
     - cron: "0 0 31 2 *"  # Invalid cron, replaced later
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   scheduler:
     runs-on: ubuntu-latest
