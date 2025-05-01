@@ -25,6 +25,9 @@ on:
         description: "Cron schedule for the workflow. Format: 'min hour day month day_of_week'"
         default: "*/2 * * * *"
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
