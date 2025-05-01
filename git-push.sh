@@ -5,6 +5,9 @@ if [ -z "$2" ]
     echo "No commit message supplied"
     exit 1
 fi
+
+echo "Pull ..."
+git pull origin $1
 echo "Add ..."
 git add .
 echo "Commit ..."

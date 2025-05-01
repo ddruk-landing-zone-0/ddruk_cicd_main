@@ -26,7 +26,9 @@ on:
         default: "*/2 * * * *"
 
 permissions:
-  contents: write
+    contents: write
+    actions: write
+
 
 jobs:
   deploy:
