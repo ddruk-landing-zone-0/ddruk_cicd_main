@@ -37,7 +37,7 @@ jobs:
             git config user.name github-actions
             git config user.email github-actions@github.com
             git add .github/workflows/cron-progressive-handler.yml
-            git commit -m "Remove cron workflow as calls_pending exhausted"
+            git commit -m "Remove cron workflow as calls_pending exhausted [skip-ci]"
             git push
             exit 0
           fi
