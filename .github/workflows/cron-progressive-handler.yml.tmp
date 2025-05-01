@@ -1,0 +1,68 @@
+name: Progressive Scheduler
+
+on:
+  schedule:
+    - cron: "0 0 31 2 *"  # Invalid cron, replaced later
+  workflow_dispatch:
+
+jobs:
+  scheduler:
+    runs-on: ubuntu-latest
+    env:
+      SERVICE_NAME: <SERVICE_NAME>
+      PROJECT_ID: <PROJECT_ID>
+      REGION: <REGION>
+      TRAFFIC_SHIFT: <TRAFFIC_SHIFT>
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Validate and Read progressive.json
+        id: check
+        run: |
+          file="progressive.json"
+          if [[ ! -f "$file" ]]; then
+            echo "File not found!" && exit 1
+          fi
+
+          calls=$(jq -r '.calls_pending' "$file")
+          if ! [[ "$calls" =~ ^[0-9]+$ ]]; then
+            echo "Corrupt or invalid count" && exit 1
+          fi
+
+          if (( calls <= 0 )); then
+            echo "calls_pending exhausted or invalid. Removing cron..."
+            rm .github/workflows/cron-progressive-handler.yml
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            git add .github/workflows/cron-progressive-handler.yml
+            git commit -m "Remove cron workflow as calls_pending exhausted"
+            git push
+            exit 0
+          fi
+
+          echo "calls=$calls" >> $GITHUB_OUTPUT
+
+      - name: Trigger progressive deployer
+        if: steps.check.outputs.calls != ''
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: progressive-deployer.yml
+          ref: main
+          inputs: |
+            SERVICE_NAME=${{ env.SERVICE_NAME }}
+            PROJECT_ID=${{ env.PROJECT_ID }}
+            REGION=${{ env.REGION }}
+            TRAFFIC_SHIFT=${{ env.TRAFFIC_SHIFT }}
+
+      - name: Decrement calls_pending and commit
+        run: |
+          calls=$(jq -r '.calls_pending' progressive.json)
+          new_count=$((calls - 1))
+          jq --argjson n "$new_count" '.calls_pending = $n' progressive.json > tmp.json && mv tmp.json progressive.json
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add progressive.json
+          git commit -m "Decrement calls_pending to $new_count"
+          git push

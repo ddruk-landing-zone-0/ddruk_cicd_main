@@ -1,0 +1,44 @@
+name: Deploy Entry
+
+on:
+  workflow_dispatch:
+    inputs:
+      service_name:
+        required: true
+        type: string
+        default: "my-service"
+      project_id:
+        required: true
+        type: string
+        default: "my-project"
+      region:
+        required: true
+        type: string
+        default: "us-central1"
+      traffic_shift:
+        required: true
+        type: number
+        default: 40
+      cron_schedule:
+        required: true
+        type: string
+        default: "0 0 31 2 *"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dummy Deployment
+        run: |
+          echo "Deploying service: ${{ github.event.inputs.service_name }}"
+          echo "Project: ${{ github.event.inputs.project_id }}"
+          echo "Region: ${{ github.event.inputs.region }}"
+
+  inject:
+    uses: ./.github/workflows/cron-injector.yml
+    with:
+      service_name: ${{ github.event.inputs.service_name }}
+      project_id: ${{ github.event.inputs.project_id }}
+      region: ${{ github.event.inputs.region }}
+      traffic_shift: ${{ github.event.inputs.traffic_shift }}
+      cron_schedule: ${{ github.event.inputs.cron_schedule }}

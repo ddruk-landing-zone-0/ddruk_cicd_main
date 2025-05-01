@@ -1,0 +1,24 @@
+name: Progressive Deployer
+
+on:
+  workflow_dispatch:
+    inputs:
+      service_name:
+        required: true
+      project_id:
+        required: true
+      region:
+        required: true
+      traffic_shift:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo Progressive Deployment
+        run: |
+          echo "Progressively shifting traffic for: ${{ github.event.inputs.service_name }}"
+          echo "Project: ${{ github.event.inputs.project_id }}"
+          echo "Region: ${{ github.event.inputs.region }}"
+          echo "Shifting traffic by: ${{ github.event.inputs.traffic_shift }}%"

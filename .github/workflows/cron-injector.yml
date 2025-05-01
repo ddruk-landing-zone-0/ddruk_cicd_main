@@ -1,0 +1,48 @@
+name: Inject Cron Progressive Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      service_name:
+        required: true
+      project_id:
+        required: true
+      region:
+        required: true
+      traffic_shift:
+        required: true
+      cron_schedule:
+        required: true
+
+jobs:
+  inject:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Copy template workflow
+        run: |
+          cp .github/workflows/cron-progressive-handler.yml.tmp .github/workflows/cron-progressive-handler.yml
+
+      - name: Replace placeholders in workflow
+        run: |
+          sed -i "s|0 0 31 2 \*|${{ inputs.cron_schedule }}|" .github/workflows/cron-progressive-handler.yml
+          sed -i "s|<SERVICE_NAME>|${{ inputs.service_name }}|" .github/workflows/cron-progressive-handler.yml
+          sed -i "s|<PROJECT_ID>|${{ inputs.project_id }}|" .github/workflows/cron-progressive-handler.yml
+          sed -i "s|<REGION>|${{ inputs.region }}|" .github/workflows/cron-progressive-handler.yml
+          sed -i "s|<TRAFFIC_SHIFT>|${{ inputs.traffic_shift }}|" .github/workflows/cron-progressive-handler.yml
+
+      - name: Create progressive.json
+        run: |
+          total_calls=$((100 / ${{ inputs.traffic_shift }}))
+          echo "{\"calls_pending\": $total_calls}" > progressive.json
+
+      - name: Commit and push changes
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .github/workflows/cron-progressive-handler.yml progressive.json
+          git commit -m "Inject cron workflow and initialize progressive.json"
+          git push
