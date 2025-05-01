@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.1
         with:
           # Fine-grained PAT with contents:write and workflows:write
           # scopes
@@ -43,7 +43,8 @@ jobs:
             echo "calls_pending exhausted or invalid. Removing cron..."
             rm .github/workflows/cron-progressive-handler.yml
             git config user.name github-actions
-            git config user.email github-actions@github.com
+            git config --global user.email \
+              "41898282+github-actions[bot]@users.noreply.github.com"
             git add .github/workflows/cron-progressive-handler.yml
             git commit -m "Remove cron workflow as calls_pending exhausted [skip-ci]"
             git push
