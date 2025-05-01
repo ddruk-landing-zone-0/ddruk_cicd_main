@@ -22,7 +22,8 @@ on:
       cron_schedule:
         required: true
         type: string
-        default: "0 0 31 2 *"
+        description: "Cron schedule for the workflow. Format: 'min hour day month day_of_week'"
+        default: "*/2 * * * *"
 
 jobs:
   deploy:
