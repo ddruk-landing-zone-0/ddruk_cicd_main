@@ -37,10 +37,10 @@ jobs:
 
   inject:
     needs: deploy
-    uses: ./.github/workflows/cron-injector.yml
+    uses: ddruk-landing-zone-0/ddruk_cicd_main/.github/workflows/cron-injector.yml@main
     with:
       service_name: ${{ github.event.inputs.service_name }}
       project_id: ${{ github.event.inputs.project_id }}
       region: ${{ github.event.inputs.region }}
-      traffic_shift: ${{ github.event.inputs.traffic_shift }}
+      traffic_shift: 40 #${{ github.event.inputs.traffic_shift }}
       cron_schedule: ${{ github.event.inputs.cron_schedule }}
